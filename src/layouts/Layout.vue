@@ -1,12 +1,11 @@
 <template>
   <v-app>
     <Navbar />
-
+    <v-main><RouterView /></v-main>
     <default-view />
   </v-app>
 </template>
 
 <script lang="ts" setup>
-import DefaultView from "./View.vue";
-import Navbar from "@/components/navbar/Navbar.vue";
+import Navbar from "./navbar/Navbar.vue";
 </script>

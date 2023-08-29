@@ -6,11 +6,11 @@ const navList = {
   },
   "Create QR": {
     icon: "pencil",
-    path: "/create-qr",
+    path: "/",
   },
   "QR list": {
     icon: "list-box",
-    path: "/qr-list",
+    path: "/",
   },
 };
 </script>
