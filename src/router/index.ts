@@ -6,6 +6,10 @@ const routes = [
     path: "/",
     component: () => import("@/views/HomePage.vue"),
   },
+  {
+    path: "/create-qr",
+    component: () => import("@/views/CreateQrPage.vue"),
+  },
 ];
 
 const router = createRouter({

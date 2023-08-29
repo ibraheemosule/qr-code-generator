@@ -6,7 +6,7 @@ const navList = {
   },
   "Create QR": {
     icon: "pencil",
-    path: "/",
+    path: "/create-qr",
   },
   "QR list": {
     icon: "list-box",

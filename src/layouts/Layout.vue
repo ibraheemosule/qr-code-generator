@@ -1,8 +1,11 @@
 <template>
   <v-app>
     <Navbar />
-    <v-main><RouterView /></v-main>
-    <default-view />
+    <v-main>
+      <v-container class="fill-height">
+        <RouterView />
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
