@@ -2,6 +2,7 @@
 defineProps<{
   text: string;
   size?: string;
+  color?: string;
 }>();
 
 const emit = defineEmits(["actionFn"]);
@@ -14,8 +15,7 @@ function handleAction() {
 <template>
   <v-btn
     @click="handleAction"
-    class="mt-6"
-    color="primary"
+    :color="color ?? 'primary'"
     max-width="200"
     :size="size || 'large'"
     variant="flat"

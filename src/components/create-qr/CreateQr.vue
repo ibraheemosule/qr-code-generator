@@ -175,7 +175,7 @@ async function generateQr() {
         <p class="mt-4 text-sec">
           {{ concatUrl }}
         </p>
-        <v-sheet class="my-4">
+        <v-sheet class="my-6">
           <ActionBtn @action-fn="generateQr" text="Generate" />
         </v-sheet>
       </v-col>

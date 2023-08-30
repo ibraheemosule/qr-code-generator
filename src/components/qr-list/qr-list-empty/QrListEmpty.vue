@@ -13,7 +13,7 @@ defineProps<{
   >
   <v-col v-if="!qrList.length && !search" cols="12" class="text-center mt-12"
     ><h4 class="text-h5 text-capitalize w-100">No Qr Code Generated</h4>
-    <RouterLink to="/create-qr">
+    <RouterLink to="/create-qr" class="mt-6 d-block">
       <ActionBtn text="Generate One" />
     </RouterLink>
   </v-col>

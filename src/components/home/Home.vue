@@ -16,7 +16,7 @@ import ActionBtn from "../reusables/action-btn/ActionBtn";
           Custom QR codes help users access your website by scanning the code
           with their device cameras (can be useful during campaigns)
         </h4>
-        <router-link class="mt-6" to="/create-qr">
+        <router-link class="mt-6 d-block" to="/create-qr">
           <ActionBtn text="Get Started">
             <v-icon icon="mdi-arrow-right-thin" size="large" end />
           </ActionBtn>

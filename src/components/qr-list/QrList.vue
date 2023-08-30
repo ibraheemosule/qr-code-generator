@@ -6,6 +6,7 @@ import { useStore } from "@/store/app";
 import TitleText from "../reusables/title-text/TitleText.vue";
 import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
 import QrListEmpty from "./qr-list-empty/QrListEmpty";
+import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 
 const store = useStore();
 
@@ -35,9 +36,20 @@ watch(search, () => {
   <v-container fluid>
     <TitleText value="Qr Code History" />
 
-    <v-sheet class="search-field mt-16">
-      <v-text-field v-model="search" label="Search Title" variant="outlined" />
-    </v-sheet>
+    <v-row class="mt-16">
+      <template v-if="store.list.length > 3">
+        <v-col cols="12" sm="7" md="4">
+          <v-text-field
+            v-model="search"
+            label="Search Title"
+            variant="outlined"
+          />
+        </v-col>
+        <v-sheet class="px-4 ml-auto mt-sm-4">
+          <ActionBtn color="error" text="Delete all" />
+        </v-sheet>
+      </template>
+    </v-row>
 
     <v-row class="mt-2 flex-wrap">
       <QrListEmpty :search="search" :qrList="qrList" />
