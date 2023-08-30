@@ -5,9 +5,13 @@ import ActionBtn from "../reusables/action-btn/ActionBtn";
 
 <template>
   <v-container class="fill-height">
-    <v-row>
-      <v-col class="d-flex justify-center flex-column">
+    <v-row class="justify-space-around">
+      <v-col cols="12" md="6" lg="5" class="d-flex justify-center flex-column">
         <TitleText value="Generate a custom qr code for your website" />
+
+        <div class="d-md-none w-100 px-16 py-8">
+          <v-img src="@/assets/hero-img.svg" />
+        </div>
         <h4 class="mt-8 text-h6 font-weight-medium">
           Custom QR codes help users access your website by scanning the code
           with their device cameras (can be useful during campaigns)
@@ -18,7 +22,8 @@ import ActionBtn from "../reusables/action-btn/ActionBtn";
           </ActionBtn>
         </router-link>
       </v-col>
-      <v-col>
+
+      <v-col cols="12" md="6" lg="5" class="d-none d-md-block">
         <v-img src="@/assets/hero-img.svg" />
       </v-col>
     </v-row>
