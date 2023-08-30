@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
-import qrList from "../../../testData";
+
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store/app";
 
 const store = useStore();
 
-const dummyList = ref([...qrList]);
+const qrList = ref([...store.list]);
 const search = ref("");
 const router = useRouter();
 
@@ -21,7 +21,7 @@ function viewQr(id: string) {
 }
 
 watch(search, () => {
-  dummyList.value = qrList.filter((qr) =>
+  qrList.value = store.list.filter((qr) =>
     qr.title.toLowerCase().includes(search.value.toLocaleLowerCase())
   );
 });
@@ -37,7 +37,7 @@ watch(search, () => {
       <v-text-field v-model="search" label="Search Title" variant="outlined" />
     </v-sheet>
 
-    <v-row class="mt-2 flex-wrap">
+    <v-row class="mt-2 flex-wrap align-content-stretch">
       <v-col
         class="pa-6"
         v-for="qr in store.list"
