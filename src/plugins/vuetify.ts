@@ -11,6 +11,7 @@ const customTheme: ThemeDefinition = {
     pry: "#f8f9fa",
     sec: "#495057",
     ter: "#212529",
+    primary: "#407BFF",
   },
 };
 

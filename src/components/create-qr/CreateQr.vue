@@ -55,8 +55,8 @@ async function generateQr() {
       type: "image/png",
       margin: 1,
       color: {
-        dark: "#000000", // QR Color
-        light: "#ffffff", // Background Color
+        dark: qrColor.value, // QR Color
+        light: qrBgColor.value, // Background Color
       },
     });
 
@@ -156,24 +156,28 @@ async function generateQr() {
         </v-row>
         <v-row class="mt-8">
           <v-col>
-            <label class="color-selector mr-4 font-weight-bold" for="qrColor"
+            <label
+              class="color-selector mr-4 font-weight-bold d-block"
+              for="qrColor"
               >QR Color</label
             >
             <input type="color" id="qrColor" v-model="qrColor" />
           </v-col>
           <v-col>
-            <label class="color-selector mr-4 font-weight-bold" for="qrBgColor"
+            <label
+              class="color-selector mr-4 font-weight-bold d-block"
+              for="qrBgColor"
               >QR Background Color</label
             >
             <input type="color" id="qrBgColor" v-model="qrBgColor" />
           </v-col>
         </v-row>
-        <v-sheet class="mt-6">
-          <ActionBtn @delete-fn="generateQr" text="Generate" />
-        </v-sheet>
         <p class="mt-4 text-sec">
           {{ concatUrl }}
         </p>
+        <v-sheet class="my-4">
+          <ActionBtn @action-fn="generateQr" text="Generate" />
+        </v-sheet>
       </v-col>
 
       <v-col cols="12" md="6" class="d-none d-md-block">
@@ -191,12 +195,7 @@ h4 {
 p {
   word-break: break-word;
   font-style: italic;
-  position: absolute;
   max-width: 500px;
-}
-
-#queries .v-input__details {
-  display: none;
 }
 
 input[type="color"] {

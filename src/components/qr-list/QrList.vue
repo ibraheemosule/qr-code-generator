@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
-
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store/app";
+
+import TitleText from "../reusables/title-text/TitleText.vue";
+import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
+import QrListEmpty from "./qr-list-empty/QrListEmpty";
 
 const store = useStore();
 
@@ -13,6 +15,8 @@ const router = useRouter();
 
 function deleteQr(id: string) {
   store.list = store.list.filter((qr) => qr.id !== id);
+  qrList.value = qrList.value.filter((qr) => qr.id !== id);
+
   window.localStorage.setItem("qrHistory", JSON.stringify(store.list));
 }
 
@@ -29,33 +33,33 @@ watch(search, () => {
 
 <template>
   <v-container fluid>
-    <h1 class="text-warning text-h3 font-weight-medium text-capitalize">
-      Qr Code History
-    </h1>
+    <TitleText value="Qr Code History" />
 
     <v-sheet class="search-field mt-16">
       <v-text-field v-model="search" label="Search Title" variant="outlined" />
     </v-sheet>
 
-    <v-row class="mt-2 flex-wrap align-content-stretch">
+    <v-row class="mt-2 flex-wrap">
+      <QrListEmpty :search="search" :qrList="qrList" />
       <v-col
-        class="pa-6"
-        v-for="qr in store.list"
+        class="pa-6 mb-6"
+        v-for="qr in qrList"
         :key="qr.id"
         cols="12"
         sm="6"
         md="4"
         xl="3"
       >
-        <v-sheet class="pa-4 bg-pry rounded">
-          <h4 class="text-h6 text-capitalize">
+        <div class="pa-4 bg-pry rounded h-100">
+          <h4 class="text-h6 text-capitalize w-100">
             {{ qr.title }}
           </h4>
 
-          <p class="my-3">
+          <p class="my-3 align-self-start">
             {{ qr.url }}
           </p>
-
+        </div>
+        <div class="bg-pry pa-2">
           <ActionBtnGroup
             @delete-fn="deleteQr(qr.id)"
             @action-fn="viewQr(qr.id)"
@@ -63,34 +67,7 @@ watch(search, () => {
             :showDelete="true"
             text="view qr"
           />
-
-          <!-- <v-sheet
-            class="d-flex justify-space-between w-100 pa-0 ma-0 mt-3 bg-pry"
-          >
-            <v-btn
-              color="warning"
-              size="small"
-              min-width="0"
-              class="py-0"
-              variant="text"
-              @click="deleteFn"
-            >
-              <v-icon icon="mdi-trash-can-outline" size="large" end />
-            </v-btn>
-            <v-btn
-              v-if="showAction"
-              color="warning"
-              max-width="200"
-              class="py-0"
-              size="small"
-              variant="text"
-              @click="actionFn"
-            >
-              View
-              <v-icon icon="mdi-plus" size="large" end />
-            </v-btn>
-          </v-sheet> -->
-        </v-sheet>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -103,6 +80,7 @@ h4 {
 
 p {
   font-style: italic;
+  word-break: break-all;
 }
 
 .search-field {
