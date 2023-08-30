@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import { nanoid } from "nanoid";
 import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
+import TitleText from "../reusables/title-text/TitleText";
 
 interface IQuery {
   query: string;
@@ -44,9 +45,7 @@ const deleteQuery = (id: string) => {
   <v-container fluid class="fill-height">
     <v-row class="mt-12">
       <v-col cols="12" sm="12" md="6" class="">
-        <h1 class="text-warning text-h3 font-weight-medium text-capitalize">
-          Generate Qr Code
-        </h1>
+        <TitleText value="Generate Qr Code" />
         <v-col cols="12" md="6" class="d-md-none mx-auto">
           <v-img class="" src="@/assets/qr-page-img.svg" />
         </v-col>
@@ -139,10 +138,6 @@ const deleteQuery = (id: string) => {
 </template>
 
 <style scoped>
-h1 {
-  line-height: 3.5rem;
-}
-
 h4 {
   line-height: 2rem;
 }

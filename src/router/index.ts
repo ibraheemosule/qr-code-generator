@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: "/qr/:id",
-    component: () => import("@/views/QrListPage.vue"),
+    component: () => import("@/views/QrPage.vue"),
   },
 ];
 

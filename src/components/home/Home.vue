@@ -1,10 +1,12 @@
+<script setup lang="ts">
+import TitleText from "../reusables/title-text/TitleText";
+</script>
+
 <template>
   <v-container class="fill-height">
     <v-row>
       <v-col class="d-flex justify-center flex-column">
-        <h1 class="text-warning text-h3 font-weight-medium text-capitalize">
-          Generate a custom qr code for your website
-        </h1>
+        <TitleText value="Generate a custom qr code for your website" />
         <h4 class="mt-8 text-h6 font-weight-medium">
           Custom QR codes help users access your website by scanning the code
           with their device cameras (can be useful during campaigns)
@@ -29,15 +31,7 @@
   </v-container>
 </template>
 
-<script lang="ts" setup>
-//
-</script>
-
 <style scoped>
-h1 {
-  line-height: 3.5rem;
-}
-
 h4 {
   line-height: 2rem;
 }
