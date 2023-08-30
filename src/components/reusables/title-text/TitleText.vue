@@ -3,7 +3,9 @@ defineProps<{ value: string }>();
 </script>
 
 <template>
-  <h1 class="text-warning text-h3 font-weight-medium text-capitalize">
+  <h1
+    class="text-warning text-h4 text-sm-h3 font-weight-medium text-capitalize"
+  >
     {{ value }}
   </h1>
 </template>

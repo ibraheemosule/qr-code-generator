@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@babel/types": "^7.21.4",
+    "@types/dom-to-image": "^2.6.4",
     "@types/node": "^18.15.0",
     "@types/qrcode": "^1.5.1",
     "@types/webfontloader": "^1.6.35",

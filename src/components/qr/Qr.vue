@@ -3,14 +3,40 @@ import TitleText from "../reusables/title-text/TitleText";
 import ActionBtn from "../reusables/action-btn/ActionBtn";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../store/app";
+import domToImage from "dom-to-image";
 
 const id = useRoute().params.id;
 const store = useStore();
 const router = useRouter();
 
-const qrImg = store.list.filter((qr) => qr.id === id)[0]?.qr;
+const qrObject = store.list.filter((qr) => qr.id === id)[0];
 
-if (!qrImg) router.push("/");
+async function downloadQr(type: string) {
+  const qrContainer = document.getElementById("qrContainer");
+
+  const format = {
+    png: domToImage.toPng,
+    svg: domToImage.toSvg,
+    jpeg: domToImage.toJpeg,
+  } as Record<string, (arg: HTMLElement | null) => string>;
+
+  try {
+    let convert = await format[type](qrContainer);
+
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = convert;
+    downloadLink.download = `${qrObject.title}.${type}`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    document.body.removeChild(downloadLink);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+if (!qrObject) router.push("/");
 </script>
 
 <template>
@@ -20,18 +46,32 @@ if (!qrImg) router.push("/");
         <TitleText value="Qr Image" />
       </v-col>
 
-      <v-col cols="12" sm="6" class="mx-auto mt-6">
-        <v-img class="" :src="qrImg" />
+      <v-col cols="12" sm="6" md="4" class="mx-auto mt-6">
+        <div class="pa-2" id="qrContainer">
+          <v-img class="" :src="qrObject.qr" />
+        </div>
       </v-col>
-      <v-col cols="12" class="d-flex flex-wrap justify-center mt-2">
-        <v-sheet class="ma-4">
-          <ActionBtn text="Download PNG" />
+      <v-col cols="12" class="d-flex flex-wrap justify-center">
+        <v-sheet class="mx-2">
+          <ActionBtn
+            @action-fn="downloadQr('png')"
+            size="small"
+            text="Download PNG"
+          />
         </v-sheet>
-        <v-sheet class="ma-4">
-          <ActionBtn text="Download JPG" />
+        <v-sheet class="mx-2">
+          <ActionBtn
+            @action-fn="downloadQr('jpeg')"
+            size="small"
+            text="Download JPEG"
+          />
         </v-sheet>
-        <v-sheet class="ma-4">
-          <ActionBtn text="Download SVG" />
+        <v-sheet class="mx-2">
+          <ActionBtn
+            @action-fn="downloadQr('svg')"
+            size="small"
+            text="Download SVG"
+          />
         </v-sheet>
       </v-col>
     </v-row>

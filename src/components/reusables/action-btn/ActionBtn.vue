@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   text: string;
+  size?: string;
 }>();
 
 const emit = defineEmits(["actionFn"]);
@@ -16,7 +17,7 @@ function handleAction() {
     class="mt-6"
     color="primary"
     max-width="200"
-    size="large"
+    :size="size || 'large'"
     variant="flat"
   >
     {{ text }}
