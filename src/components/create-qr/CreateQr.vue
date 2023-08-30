@@ -1,20 +1,20 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { nanoid } from "nanoid";
+import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
+
+interface IQuery {
+  query: string;
+  param: string;
+  id: string;
+}
 
 const objQuery = { query: "", param: "", id: nanoid() };
 
 const qrTitle = ref("");
 const url = ref("");
 
-const queries = ref([
-  { ...objQuery },
-  { query: "", param: "", id: nanoid() },
-]) as {
-  query: string;
-  param: string;
-  id: string;
-}[];
+const queries = ref<IQuery[]>([{ ...objQuery }]);
 
 const concatUrl = computed(() => {
   const concatQueries = queries.value.reduce((prev, queryObj) => {
@@ -30,10 +30,10 @@ const concatUrl = computed(() => {
 });
 
 const addQuery = () => {
-  queries.value = [...queries.value, { ...objQuery }];
+  queries.value = [...queries.value, { ...objQuery, id: nanoid() }];
 };
 
-const deleteQuery = (id) => {
+const deleteQuery = (id: string) => {
   setTimeout(() => {
     queries.value = queries.value.filter((field) => id !== field.id);
   }, 200);
@@ -59,11 +59,12 @@ const deleteQuery = (id) => {
             class="mt-3"
             v-model="url"
             label="Url Link"
+            hint="https://example.com or www.example.com"
             variant="outlined"
           />
         </v-sheet>
         <v-row id="queries" v-for="(field, i) in queries" :key="field.id">
-          <v-col cols="6" class="pb-0 mb-0">
+          <v-col cols="6" class="pb-0 mb-n3">
             <v-text-field
               v-model="field.query"
               class="mt-3"
@@ -71,7 +72,7 @@ const deleteQuery = (id) => {
               variant="outlined"
             />
           </v-col>
-          <v-col cols="6" class="pb-0 mb-0">
+          <v-col cols="6" class="pb-0 mb-n3">
             <v-text-field
               v-model="field.param"
               class="mt-3"
@@ -79,12 +80,20 @@ const deleteQuery = (id) => {
               variant="outlined"
             />
           </v-col>
-          <v-sheet class="d-flex justify-space-between w-100 pa-0 ma-0 mt-n3">
+          <ActionBtnGroup
+            @delete-fn="deleteQuery(field.id)"
+            @action-fn="addQuery"
+            :showAction="i === queries.length - 1"
+            :showDelete="queries.length > 1"
+            text="Add Another Query"
+          />
+          <!-- <v-sheet class="d-flex justify-space-between w-100 pa-0 ma-0 mt-n3">
             <v-btn
+              v-if="queries.length > 1"
               color="warning"
               size="small"
               min-width="0"
-              class="py-0"
+              class="p-0"
               variant="text"
               @click="deleteQuery(field.id)"
             >
@@ -94,7 +103,7 @@ const deleteQuery = (id) => {
               v-if="i === queries.length - 1"
               color="primary"
               max-width="200"
-              class="py -0"
+              class="p-0 ml-auto"
               size="small"
               variant="text"
               @click="addQuery"
@@ -102,7 +111,7 @@ const deleteQuery = (id) => {
               Add Another Query
               <v-icon icon="mdi-plus" size="large" end />
             </v-btn>
-          </v-sheet>
+          </v-sheet> -->
         </v-row>
 
         <v-btn

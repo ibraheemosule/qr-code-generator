@@ -10,6 +10,14 @@ const routes = [
     path: "/create-qr",
     component: () => import("@/views/CreateQrPage.vue"),
   },
+  {
+    path: "/qr-list",
+    component: () => import("@/views/QrListPage.vue"),
+  },
+  {
+    path: "/qr/:id",
+    component: () => import("@/views/QrListPage.vue"),
+  },
 ];
 
 const router = createRouter({

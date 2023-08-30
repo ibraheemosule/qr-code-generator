@@ -2,7 +2,7 @@
   <v-app>
     <Navbar />
     <v-main>
-      <v-container class="fill-height">
+      <v-container class="h-screen">
         <RouterView />
       </v-container>
     </v-main>

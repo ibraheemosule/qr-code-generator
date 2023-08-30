@@ -10,7 +10,7 @@ const navList = {
   },
   "QR list": {
     icon: "list-box",
-    path: "/",
+    path: "/qr-list",
   },
 };
 </script>
