@@ -3,15 +3,22 @@ import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
 import qrList from "../../../testData";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "@/store/app";
+
+const store = useStore();
 
 const dummyList = ref([...qrList]);
 const search = ref("");
 const router = useRouter();
 
-const deleteQr = (id: string) => {
-  dummyList.value = dummyList.value.filter((qr) => qr.id !== id);
-};
-const viewQr = (id: string) => router.push(`qr/${id}`);
+function deleteQr(id: string) {
+  store.list = store.list.filter((qr) => qr.id !== id);
+  window.localStorage.setItem("qrHistory", JSON.stringify(store.list));
+}
+
+function viewQr(id: string) {
+  router.push(`qr/${id}`);
+}
 
 watch(search, () => {
   dummyList.value = qrList.filter((qr) =>
@@ -33,7 +40,7 @@ watch(search, () => {
     <v-row class="mt-2 flex-wrap">
       <v-col
         class="pa-6"
-        v-for="qr in dummyList"
+        v-for="qr in store.list"
         :key="qr.id"
         cols="12"
         sm="6"
@@ -46,7 +53,7 @@ watch(search, () => {
           </h4>
 
           <p class="my-3">
-            {{ qr.link }}
+            {{ qr.url }}
           </p>
 
           <ActionBtnGroup
@@ -54,7 +61,7 @@ watch(search, () => {
             @action-fn="viewQr(qr.id)"
             :showAction="true"
             :showDelete="true"
-            text="view"
+            text="view qr"
           />
 
           <!-- <v-sheet
