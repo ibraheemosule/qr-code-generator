@@ -1,3 +1,19 @@
+<script setup lang="ts">
+defineProps<{
+  showAction: boolean;
+  showDelete: boolean;
+  text: string;
+}>();
+
+const emit = defineEmits(["deleteFn", "actionFn"]);
+
+const handleDelete = () => {
+  emit("deleteFn");
+};
+
+const handleAction = () => emit("actionFn");
+</script>
+
 <template>
   <v-sheet class="d-flex justify-space-between w-100 pa-0 ma-0 bg-transparent">
     <v-btn
@@ -24,19 +40,3 @@
     </v-btn>
   </v-sheet>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-  showAction: boolean;
-  showDelete: boolean;
-  text: string;
-}>();
-
-const emit = defineEmits(["deleteFn", "actionFn"]);
-
-const handleDelete = () => {
-  emit("deleteFn");
-};
-
-const handleAction = () => emit("actionFn");
-</script>

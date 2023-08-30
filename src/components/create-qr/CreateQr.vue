@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import { nanoid } from "nanoid";
 import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
 import TitleText from "../reusables/title-text/TitleText";
+import ActionBtn from "../reusables/action-btn/ActionBtn";
 import QRCode from "qrcode";
 import { useStore } from "../../store/app";
 import { useRouter } from "vue-router";
@@ -167,17 +168,9 @@ async function generateQr() {
             <input type="color" id="qrBgColor" v-model="qrBgColor" />
           </v-col>
         </v-row>
-
-        <v-btn
-          @click="generateQr"
-          class="mt-12"
-          color="primary"
-          max-width="200"
-          size="large"
-          variant="flat"
-        >
-          Generate
-        </v-btn>
+        <v-sheet class="mt-6">
+          <ActionBtn @delete-fn="generateQr" text="Generate" />
+        </v-sheet>
         <p class="mt-4 text-sec">
           {{ concatUrl }}
         </p>

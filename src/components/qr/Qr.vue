@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import TitleText from "../reusables/title-text/TitleText";
+import ActionBtn from "../reusables/action-btn/ActionBtn";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../store/app";
 
@@ -19,24 +20,18 @@ if (!qrImg) router.push("/");
         <TitleText value="Qr Image" />
       </v-col>
 
-      <v-col cols="12" sm="6" class="mx-auto mt-16">
+      <v-col cols="12" sm="6" class="mx-auto mt-6">
         <v-img class="" :src="qrImg" />
       </v-col>
-      <v-col cols="12" class="d-flex flex-wrap justify-center mt-6">
+      <v-col cols="12" class="d-flex flex-wrap justify-center mt-2">
         <v-sheet class="ma-4">
-          <v-btn color="primary" max-width="200" size="large" variant="flat">
-            Generate
-          </v-btn>
+          <ActionBtn text="Download PNG" />
         </v-sheet>
         <v-sheet class="ma-4">
-          <v-btn color="primary" max-width="200" size="large" variant="flat">
-            Generate
-          </v-btn>
+          <ActionBtn text="Download JPG" />
         </v-sheet>
         <v-sheet class="ma-4">
-          <v-btn color="primary" max-width="200" size="large" variant="flat">
-            Generate
-          </v-btn>
+          <ActionBtn text="Download SVG" />
         </v-sheet>
       </v-col>
     </v-row>

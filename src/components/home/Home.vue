@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TitleText from "../reusables/title-text/TitleText";
+import ActionBtn from "../reusables/action-btn/ActionBtn";
 </script>
 
 <template>
@@ -11,21 +12,14 @@ import TitleText from "../reusables/title-text/TitleText";
           Custom QR codes help users access your website by scanning the code
           with their device cameras (can be useful during campaigns)
         </h4>
-        <router-link to="/create-qr">
-          <v-btn
-            class="mt-6"
-            color="primary"
-            max-width="200"
-            size="large"
-            variant="flat"
-          >
-            Get Started
+        <router-link class="mt-6" to="/create-qr">
+          <ActionBtn text="Get Started">
             <v-icon icon="mdi-arrow-right-thin" size="large" end />
-          </v-btn>
+          </ActionBtn>
         </router-link>
       </v-col>
       <v-col>
-        <v-img aspect-ratio="16/9" cover src="@/assets/hero-img.svg"></v-img>
+        <v-img src="@/assets/hero-img.svg" />
       </v-col>
     </v-row>
   </v-container>
