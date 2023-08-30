@@ -41,12 +41,15 @@ const deleteQuery = (id: string) => {
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container fluid class="fill-height">
     <v-row class="mt-12">
-      <v-col cols="6">
+      <v-col cols="12" sm="12" md="6" class="">
         <h1 class="text-warning text-h3 font-weight-medium text-capitalize">
           Generate Qr Code
         </h1>
+        <v-col cols="12" md="6" class="d-md-none mx-auto">
+          <v-img class="" src="@/assets/qr-page-img.svg" />
+        </v-col>
         <v-sheet class="mt-12">
           <v-text-field
             v-model="qrTitle"
@@ -128,7 +131,7 @@ const deleteQuery = (id: string) => {
         </p>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" md="6" class="d-none d-md-block">
         <v-img class="" src="@/assets/qr-page-img.svg" />
       </v-col>
     </v-row>

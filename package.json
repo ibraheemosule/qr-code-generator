@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "axios": "^1.5.0",
     "core-js": "^3.29.0",
+    "dom-to-image": "^2.6.0",
     "nanoid": "^4.0.2",
     "pinia": "^2.0.0",
+    "qrcode": "^1.5.3",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
