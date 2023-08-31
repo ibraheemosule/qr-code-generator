@@ -18,6 +18,10 @@ const routes = [
     path: "/qr/:id",
     component: () => import("@/views/QrPage.vue"),
   },
+  {
+    path: "/:pathMatch(.*)*",
+    component: () => import("@/views/Error404Page.vue"),
+  },
 ];
 
 const router = createRouter({
