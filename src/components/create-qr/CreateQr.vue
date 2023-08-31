@@ -21,8 +21,8 @@ const objQuery = { query: "", param: "", id: nanoid() };
 const qrTitle = ref("");
 const url = ref("");
 const qrImage = ref("");
-const qrColor = ref("#000000");
-const qrBgColor = ref("#ffffff");
+// const qrColor = ref("#000000");
+// const qrBgColor = ref("#ffffff");
 
 const queries = ref<IQuery[]>([{ ...objQuery }]);
 
@@ -55,8 +55,8 @@ async function generateQr() {
       type: "image/png",
       margin: 1,
       color: {
-        dark: qrColor.value, // QR Color
-        light: qrBgColor.value, // Background Color
+        dark: "#000000", // QR Color
+        light: "#ffffff", // Background Color
       },
     });
 
@@ -128,33 +128,8 @@ async function generateQr() {
             :showDelete="queries.length > 1"
             text="Add Another Query"
           />
-          <!-- <v-sheet class="d-flex justify-space-between w-100 pa-0 ma-0 mt-n3">
-            <v-btn
-              v-if="queries.length > 1"
-              color="warning"
-              size="small"
-              min-width="0"
-              class="p-0"
-              variant="text"
-              @click="deleteQuery(field.id)"
-            >
-              <v-icon icon="mdi-trash-can-outline" size="large" end />
-            </v-btn>
-            <v-btn
-              v-if="i === queries.length - 1"
-              color="primary"
-              max-width="200"
-              class="p-0 ml-auto"
-              size="small"
-              variant="text"
-              @click="addQuery"
-            >
-              Add Another Query
-              <v-icon icon="mdi-plus" size="large" end />
-            </v-btn>
-          </v-sheet> -->
         </v-row>
-        <v-row class="mt-8">
+        <!-- <v-row class="mt-8">
           <v-col>
             <label
               class="color-selector mr-4 font-weight-bold d-block"
@@ -171,7 +146,7 @@ async function generateQr() {
             >
             <input type="color" id="qrBgColor" v-model="qrBgColor" />
           </v-col>
-        </v-row>
+        </v-row> -->
         <p class="mt-4 text-sec">
           {{ concatUrl }}
         </p>
