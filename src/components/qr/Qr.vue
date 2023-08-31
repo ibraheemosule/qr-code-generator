@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-container fluid class="fill-height py-16">
+  <v-container v-if="qrObject" fluid class="fill-height py-16">
     <v-row>
       <v-col cols="12" class="text-center">
         <TitleText value="Qr Image" />
