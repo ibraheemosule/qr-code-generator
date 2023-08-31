@@ -1,18 +1,17 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
-import { nanoid } from "nanoid";
-import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
-import TitleText from "../reusables/title-text/TitleText";
-import ActionBtn from "../reusables/action-btn/ActionBtn";
-import QRCode from "qrcode";
-import { useStore } from "../../store/app";
 import { useRouter } from "vue-router";
+import { nanoid } from "nanoid";
+import QRCode from "qrcode";
 
-interface IQuery {
-  query: string;
-  param: string;
-  id: string;
-}
+import { QueryParamType } from "../../ts-types/data-types";
+import * as validate from "./u_create-qr";
+import { useStore } from "../../store/app";
+
+import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
+import TitleText from "../reusables/title-text/TitleText.vue";
+import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
+
 const store = useStore();
 const router = useRouter();
 
@@ -21,10 +20,8 @@ const objQuery = { query: "", param: "", id: nanoid() };
 const qrTitle = ref("");
 const url = ref("");
 const qrImage = ref("");
-// const qrColor = ref("#000000");
-// const qrBgColor = ref("#ffffff");
-
-const queries = ref<IQuery[]>([{ ...objQuery }]);
+const isFormValid = ref(false);
+const queries = ref<QueryParamType[]>([{ ...objQuery }]);
 
 const concatUrl = computed(() => {
   const concatQueries = queries.value.reduce((prev, queryObj) => {
@@ -49,7 +46,10 @@ function deleteQuery(id: string) {
   }, 200);
 }
 
-async function generateQr() {
+async function generateQr(e: SubmitEvent) {
+  const form = (await e) as { valid: boolean } & SubmitEvent;
+  if (!form.valid) return;
+
   try {
     let generatedQr = await QRCode.toDataURL(concatUrl.value, {
       type: "image/png",
@@ -68,10 +68,8 @@ async function generateQr() {
       qr: generatedQr,
       url: concatUrl.value,
     });
-    console.log(store.list);
 
     window.localStorage.setItem("qrHistory", JSON.stringify(store.list));
-
     router.push(`qr/${id}`);
   } catch (e) {
     console.log(e);
@@ -88,71 +86,67 @@ async function generateQr() {
         <v-col cols="12" md="6" class="d-md-none mx-auto">
           <v-img class="" src="@/assets/qr-page-img.svg" />
         </v-col>
-        <v-sheet class="mt-12">
-          <v-text-field
-            v-model="qrTitle"
-            class="mt-3"
-            label="Qr Code Title"
-            hint="Create a Title for the Qr Code"
-            variant="outlined"
-          />
-          <v-text-field
-            class="mt-3"
-            v-model="url"
-            label="Url Link"
-            hint="https://example.com or www.example.com"
-            variant="outlined"
-          />
-        </v-sheet>
-        <v-row id="queries" v-for="(field, i) in queries" :key="field.id">
-          <v-col cols="6" class="pb-0 mb-n3">
+        <v-form
+          validate-on="blur"
+          v-model="isFormValid"
+          @submit.prevent="generateQr"
+        >
+          <v-sheet class="mt-12">
             <v-text-field
-              v-model="field.query"
+              v-model="qrTitle"
+              :rules="validate.titleValidation"
               class="mt-3"
-              label="Query"
+              aria-required="true"
+              label="Qr Code Title"
+              hint="Create a Title for the Qr Code"
               variant="outlined"
             />
-          </v-col>
-          <v-col cols="6" class="pb-0 mb-n3">
             <v-text-field
-              v-model="field.param"
               class="mt-3"
-              label="Param"
+              v-model="url"
+              aria-required="true"
+              :rules="validate.urlValidation"
+              label="Url Link"
+              hint="https://example.com or www.example.com"
               variant="outlined"
             />
-          </v-col>
-          <ActionBtnGroup
-            @delete-fn="deleteQuery(field.id)"
-            @action-fn="addQuery"
-            :showAction="i === queries.length - 1"
-            :showDelete="queries.length > 1"
-            text="Add Another Query"
-          />
-        </v-row>
-        <!-- <v-row class="mt-8">
-          <v-col>
-            <label
-              class="color-selector mr-4 font-weight-bold d-block"
-              for="qrColor"
-              >QR Color</label
-            >
-            <input type="color" id="qrColor" v-model="qrColor" />
-          </v-col>
-          <v-col>
-            <label
-              class="color-selector mr-4 font-weight-bold d-block"
-              for="qrBgColor"
-              >QR Background Color</label
-            >
-            <input type="color" id="qrBgColor" v-model="qrBgColor" />
-          </v-col>
-        </v-row> -->
-        <p class="mt-4 text-sec">
-          {{ concatUrl }}
-        </p>
-        <v-sheet class="my-6">
-          <ActionBtn @action-fn="generateQr" text="Generate" />
-        </v-sheet>
+          </v-sheet>
+          <v-row id="queries" v-for="(field, i) in queries" :key="field.id">
+            <v-col cols="6" class="pb-0 mb-n3">
+              <v-text-field
+                v-model="field.query"
+                :rules="validate.queryValidation"
+                class="mt-3"
+                label="Query"
+                variant="outlined"
+              />
+            </v-col>
+            <v-col cols="6" class="pb-0 mb-n3">
+              <v-text-field
+                v-model="field.param"
+                :rules="validate.paramValidation(field.query)"
+                class="mt-3"
+                label="Param"
+                variant="outlined"
+              />
+            </v-col>
+            <v-col cols="12" class="mt-0 pt-1">
+              <ActionBtnGroup
+                @delete-fn="deleteQuery(field.id)"
+                @action-fn="addQuery"
+                :showAction="i === queries.length - 1"
+                :showDelete="queries.length > 1"
+                text="Add Another Query"
+              />
+            </v-col>
+          </v-row>
+          <p class="mt-4 text-sec">
+            {{ concatUrl }}
+          </p>
+          <v-sheet class="my-6">
+            <ActionBtn text="Generate" />
+          </v-sheet>
+        </v-form>
       </v-col>
 
       <v-col cols="12" md="6" class="d-none d-md-block">
@@ -171,13 +165,5 @@ p {
   word-break: break-word;
   font-style: italic;
   max-width: 500px;
-}
-
-input[type="color"] {
-  cursor: pointer;
-}
-
-.color-selector {
-  display: inline-block;
 }
 </style>

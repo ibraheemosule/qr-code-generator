@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import TitleText from "../reusables/title-text/TitleText";
-import ActionBtn from "../reusables/action-btn/ActionBtn";
+import domToImage from "dom-to-image";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../store/app";
-import domToImage from "dom-to-image";
+
+import TitleText from "../reusables/title-text/TitleText.vue";
+import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 
 const id = useRoute().params.id;
 const store = useStore();
@@ -18,7 +19,7 @@ async function downloadQr(type: string) {
     png: domToImage.toPng,
     svg: domToImage.toSvg,
     jpeg: domToImage.toJpeg,
-  } as Record<string, (arg: HTMLElement | null) => string>;
+  } as Record<string, (arg: Node | null) => Promise<string>>;
 
   try {
     let convert = await format[type](qrContainer);

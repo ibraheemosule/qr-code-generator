@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TitleText from "../reusables/title-text/TitleText";
-import ActionBtn from "../reusables/action-btn/ActionBtn";
+import TitleText from "../reusables/title-text/TitleText.vue";
+import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 </script>
 
 <template>
@@ -9,14 +9,14 @@ import ActionBtn from "../reusables/action-btn/ActionBtn";
       <v-col cols="12" md="6" lg="5" class="d-flex justify-center flex-column">
         <TitleText value="Generate a custom qr code for your website" />
 
-        <div class="d-md-none w-100 px-16 py-8">
-          <v-img src="@/assets/hero-img.svg" />
+        <div class="d-md-none w-100 px-sm-16 py-8">
+          <v-img cover src="@/assets/hero-img.svg" />
         </div>
         <h4 class="mt-8 text-h6 font-weight-medium">
           Custom QR codes help users access your website by scanning the code
           with their device cameras (can be useful during campaigns)
         </h4>
-        <router-link class="mt-6 d-block" to="/create-qr">
+        <router-link class="my-6 d-block" to="/create-qr">
           <ActionBtn text="Get Started">
             <v-icon icon="mdi-arrow-right-thin" size="large" end />
           </ActionBtn>
@@ -32,7 +32,13 @@ import ActionBtn from "../reusables/action-btn/ActionBtn";
 
 <style scoped>
 h4 {
-  line-height: 2rem;
+  line-height: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  h4 {
+    line-height: 2rem;
+  }
 }
 </style>
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { QrListType } from "../../../ts-types/data-types";
-import ActionBtn from "../../reusables/action-btn/ActionBtn";
+import ActionBtn from "@/components/reusables/action-btn/ActionBtn.vue";
+
 defineProps<{
   search: string;
   qrList: QrListType;

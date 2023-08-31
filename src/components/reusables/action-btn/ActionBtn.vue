@@ -15,6 +15,7 @@ function handleAction() {
 <template>
   <v-btn
     @click="handleAction"
+    type="submit"
     :color="color ?? 'primary'"
     max-width="200"
     :size="size || 'large'"

@@ -1,35 +1,45 @@
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store/app";
 
 import TitleText from "../reusables/title-text/TitleText.vue";
 import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
-import QrListEmpty from "./qr-list-empty/QrListEmpty";
+import QrListEmpty from "./qr-list-empty/QrListEmpty.vue";
 import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 
 const store = useStore();
 
-const qrList = ref([...store.list]);
+// const qrList = ref([...store.list]);
 const search = ref("");
 const router = useRouter();
 
 function deleteQr(id: string) {
   store.list = store.list.filter((qr) => qr.id !== id);
-  qrList.value = qrList.value.filter((qr) => qr.id !== id);
+  // qrList.value = qrList.value.filter((qr) => qr.id !== id);
 
   window.localStorage.setItem("qrHistory", JSON.stringify(store.list));
 }
+
+function deleteAllQr() {
+  store.list = [];
+}
+
+const qrList = computed(() =>
+  store.list.filter((qr) =>
+    qr.title.toLowerCase().includes(search.value.toLocaleLowerCase())
+  )
+);
 
 function viewQr(id: string) {
   router.push(`qr/${id}`);
 }
 
-watch(search, () => {
-  qrList.value = store.list.filter((qr) =>
-    qr.title.toLowerCase().includes(search.value.toLocaleLowerCase())
-  );
-});
+// watch(search, () => {
+//   qrList.value = store.list.filter((qr) =>
+//     qr.title.toLowerCase().includes(search.value.toLocaleLowerCase())
+//   );
+// });
 </script>
 
 <template>
@@ -46,12 +56,12 @@ watch(search, () => {
           />
         </v-col>
         <v-sheet class="px-4 ml-auto mt-sm-4">
-          <ActionBtn color="error" text="Delete all" />
+          <ActionBtn @action-fn="deleteAllQr" color="error" text="Delete all" />
         </v-sheet>
       </template>
     </v-row>
 
-    <v-row class="mt-2 flex-wrap">
+    <v-row class="mt-2 pb-16 flex-wrap">
       <QrListEmpty :search="search" :qrList="qrList" />
       <v-col
         class="pa-6 mb-6"
