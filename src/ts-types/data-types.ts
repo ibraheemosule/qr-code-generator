@@ -1,4 +1,5 @@
-export type QrType = Record<"title" | "url" | "id" | "qr", string>;
+export type StringType = Record<"title" | "url" | "id" | "qr", string>;
+export type QrType = StringType & { logo?: string };
 export type QrListType = QrType[];
 
 export type QueryParamType = {

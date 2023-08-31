@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import QRCode from "qrcode";
 
 import { QueryParamType } from "../../ts-types/data-types";
-import * as validate from "./u_create-qr";
+import * as utils from "./u_create-qr";
 import { useStore } from "../../store/app";
 
 import ActionBtnGroup from "../reusables/action-btn-group/ActionBtnGroup.vue";
@@ -19,8 +19,7 @@ const objQuery = { query: "", param: "", id: nanoid() };
 
 const qrTitle = ref("");
 const url = ref("");
-const qrImage = ref("");
-const isFormValid = ref(false);
+const logo = ref<File[]>([]);
 const queries = ref<QueryParamType[]>([{ ...objQuery }]);
 
 const concatUrl = computed(() => {
@@ -60,6 +59,11 @@ async function generateQr(e: SubmitEvent) {
       },
     });
 
+    let imgString;
+    if (logo.value[0]) {
+      imgString = (await utils.convertImg(logo.value[0])) as string;
+    }
+
     const id = nanoid(30);
 
     store.list.push({
@@ -67,6 +71,7 @@ async function generateQr(e: SubmitEvent) {
       id,
       qr: generatedQr,
       url: concatUrl.value,
+      logo: imgString,
     });
 
     window.localStorage.setItem("qrHistory", JSON.stringify(store.list));
@@ -81,20 +86,15 @@ async function generateQr(e: SubmitEvent) {
   <v-container fluid class="fill-height">
     <v-row class="mt-12">
       <v-col cols="12" sm="12" md="6" class="">
-        <v-img class="" :src="qrImage" />
         <TitleText value="Generate Qr Code" />
         <v-col cols="12" md="6" class="d-md-none mx-auto">
           <v-img class="" src="@/assets/qr-page-img.svg" />
         </v-col>
-        <v-form
-          validate-on="blur"
-          v-model="isFormValid"
-          @submit.prevent="generateQr"
-        >
+        <v-form validate-on="blur" @submit.prevent="generateQr">
           <v-sheet class="mt-12">
             <v-text-field
               v-model="qrTitle"
-              :rules="validate.titleValidation"
+              :rules="utils.titleValidation"
               class="mt-3"
               aria-required="true"
               label="Qr Code Title"
@@ -105,17 +105,27 @@ async function generateQr(e: SubmitEvent) {
               class="mt-3"
               v-model="url"
               aria-required="true"
-              :rules="validate.urlValidation"
+              :rules="utils.urlValidation"
               label="Url Link"
               hint="https://example.com or www.example.com"
               variant="outlined"
             />
+            <v-file-input
+              class="mt-3"
+              v-model="logo"
+              :rules="utils.imgValidation"
+              accept=".png, .jpeg, .jpg, .svg"
+              aria-required="false"
+              prepend-icon="mdi-image"
+              label="Upload Brand Logo (optional)"
+              variant="outlined"
+            ></v-file-input>
           </v-sheet>
           <v-row id="queries" v-for="(field, i) in queries" :key="field.id">
             <v-col cols="6" class="pb-0 mb-n3">
               <v-text-field
                 v-model="field.query"
-                :rules="validate.queryValidation"
+                :rules="utils.queryValidation"
                 class="mt-3"
                 label="Query"
                 variant="outlined"
@@ -124,7 +134,7 @@ async function generateQr(e: SubmitEvent) {
             <v-col cols="6" class="pb-0 mb-n3">
               <v-text-field
                 v-model="field.param"
-                :rules="validate.paramValidation(field.query)"
+                :rules="utils.paramValidation(field.query)"
                 class="mt-3"
                 label="Param"
                 variant="outlined"

@@ -15,14 +15,22 @@ export const urlValidation = [
     let url = value;
     try {
       if (url.toLowerCase().startsWith("www.")) {
-        url = url.toLocaleLowerCase().replaceAll("www.", "https://");
+        url = url.toLowerCase().replaceAll("www.", "https://");
       }
-      if (!url.toLowerCase().startsWith("hhtps://")) throw Error;
+
+      if (!url.startsWith("https://")) throw Error;
       new URL(url);
       return true;
     } catch (err) {
       return "Invalid Url";
     }
+  },
+];
+
+export const imgValidation = [
+  (value: File[]) => {
+    if (!value?.length) return true;
+    return value[0].size < 2000000 || "Avatar size should be less than 2 MB!";
   },
 ];
 
@@ -35,3 +43,19 @@ export const paramValidation = (query: string) => [
   query ? charLength(1, 30) : () => true,
   queryValidation[1],
 ];
+
+export function convertImg(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      resolve(event.target?.result);
+    };
+
+    reader.onerror = (event) => {
+      reject(event.target?.error);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
