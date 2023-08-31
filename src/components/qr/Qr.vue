@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import domToImage from "dom-to-image";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../store/app";
+import { downloadQr } from "./u_qr";
 
 import TitleText from "../reusables/title-text/TitleText.vue";
 import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
@@ -12,30 +12,30 @@ const router = useRouter();
 
 const qrObject = store.list.filter((qr) => qr.id === id)[0];
 
-async function downloadQr(type: string) {
-  const qrContainer = document.getElementById("qrContainer");
+// async function downloadQr(type: string) {
+//   const qrContainer = document.getElementById("qrContainer");
 
-  const format = {
-    png: domToImage.toPng,
-    svg: domToImage.toSvg,
-    jpeg: domToImage.toJpeg,
-  } as Record<string, (arg: Node | null) => Promise<string>>;
+//   const format = {
+//     png: domToImage.toPng,
+//     svg: domToImage.toSvg,
+//     jpeg: domToImage.toJpeg,
+//   } as Record<string, (arg: Node | null) => Promise<string>>;
 
-  try {
-    let convert = await format[type](qrContainer);
+//   try {
+//     let convert = await format[type](qrContainer);
 
-    const downloadLink = document.createElement("a");
+//     const downloadLink = document.createElement("a");
 
-    downloadLink.href = convert;
-    downloadLink.download = `${qrObject.title}.${type}`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
+//     downloadLink.href = convert;
+//     downloadLink.download = `${qrObject.title}.${type}`;
+//     document.body.appendChild(downloadLink);
+//     downloadLink.click();
 
-    document.body.removeChild(downloadLink);
-  } catch (e) {
-    console.log(e);
-  }
-}
+//     document.body.removeChild(downloadLink);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
 if (!qrObject) router.push("/");
 </script>
@@ -53,23 +53,23 @@ if (!qrObject) router.push("/");
         </div>
       </v-col>
       <v-col cols="12" class="d-flex flex-wrap justify-center">
-        <v-sheet class="mx-2">
+        <v-sheet class="mx-2 my-2">
           <ActionBtn
-            @action-fn="downloadQr('png')"
+            @action-fn="downloadQr('png', qrObject.title)"
             size="small"
             text="Download PNG"
           />
         </v-sheet>
-        <v-sheet class="mx-2">
+        <v-sheet class="my-2">
           <ActionBtn
-            @action-fn="downloadQr('jpeg')"
+            @action-fn="downloadQr('jpeg', qrObject.title)"
             size="small"
             text="Download JPEG"
           />
         </v-sheet>
-        <v-sheet class="mx-2">
+        <v-sheet class="mx-2 my-2">
           <ActionBtn
-            @action-fn="downloadQr('svg')"
+            @action-fn="downloadQr('svg', qrObject.title)"
             size="small"
             text="Download SVG"
           />

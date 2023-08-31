@@ -16,7 +16,7 @@ h1 {
 }
 
 @media (min-width: 600px) {
-  h4 {
+  h1 {
     line-height: 3.5rem;
   }
 }
