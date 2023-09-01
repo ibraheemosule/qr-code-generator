@@ -90,7 +90,11 @@ async function generateQr(e: SubmitEvent) {
         <v-col cols="12" md="6" class="d-md-none mx-auto">
           <v-img class="" src="@/assets/qr-page-img.svg" />
         </v-col>
-        <v-form validate-on="blur" class="my-12" @submit.prevent="generateQr">
+        <v-form
+          validate-on="blur"
+          class="my-md-12"
+          @submit.prevent="generateQr"
+        >
           <v-sheet class="mt-16">
             <v-text-field
               v-model="qrTitle"
