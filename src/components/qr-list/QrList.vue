@@ -10,13 +10,11 @@ import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 
 const store = useStore();
 
-// const qrList = ref([...store.list]);
 const search = ref("");
 const router = useRouter();
 
 function deleteQr(id: string) {
   store.list = store.list.filter((qr) => qr.id !== id);
-  // qrList.value = qrList.value.filter((qr) => qr.id !== id);
 
   window.localStorage.setItem("qrHistory", JSON.stringify(store.list));
 }
@@ -34,12 +32,6 @@ const qrList = computed(() =>
 function viewQr(id: string) {
   router.push(`qr/${id}`);
 }
-
-// watch(search, () => {
-//   qrList.value = store.list.filter((qr) =>
-//     qr.title.toLowerCase().includes(search.value.toLocaleLowerCase())
-//   );
-// });
 </script>
 
 <template>
