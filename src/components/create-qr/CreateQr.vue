@@ -20,6 +20,7 @@ const qrTitle = ref("");
 const url = ref("");
 const logo = ref<File[]>([]);
 const queries = ref<QueryParamType[]>([{ ...objQuery }]);
+const loading = ref(false);
 
 const concatUrl = computed(() => {
   const concatQueries = queries.value.reduce((prev, queryObj) => {
@@ -49,6 +50,8 @@ async function generateQr(e: SubmitEvent) {
   if (!form.valid) return;
 
   try {
+    loading.value = true;
+
     const generatedQr = await utils.createQr(concatUrl.value);
 
     let imgString;
@@ -70,6 +73,8 @@ async function generateQr(e: SubmitEvent) {
     router.push(`qr/${id}`);
   } catch (e) {
     console.log(e);
+  } finally {
+    loading.value = false;
   }
 }
 </script>
@@ -150,7 +155,7 @@ async function generateQr(e: SubmitEvent) {
             {{ concatUrl }}
           </p>
           <v-sheet class="my-6">
-            <ActionBtn text="Generate" />
+            <ActionBtn text="Generate" :loading="loading" />
           </v-sheet>
         </v-form>
       </v-col>

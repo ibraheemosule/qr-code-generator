@@ -3,6 +3,7 @@ defineProps<{
   text: string;
   size?: string;
   color?: string;
+  loading?: boolean;
 }>();
 
 const emit = defineEmits(["actionFn"]);
@@ -20,6 +21,7 @@ function handleAction() {
     max-width="200"
     :size="size || 'large'"
     variant="flat"
+    :loading="loading"
   >
     {{ text }}
     <slot />
