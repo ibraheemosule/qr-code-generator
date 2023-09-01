@@ -16,7 +16,7 @@ import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
           Custom QR codes help users access your website by scanning the code
           with their device cameras (can be useful during campaigns)
         </h4>
-        <router-link class="my-6 d-block" to="/create-qr">
+        <router-link class="router-link my-6 d-block" to="/create-qr">
           <ActionBtn text="Get Started">
             <v-icon icon="mdi-arrow-right-thin" size="large" end />
           </ActionBtn>
@@ -39,6 +39,9 @@ h4 {
   h4 {
     line-height: 2rem;
   }
+}
+.router-link {
+  all: unset;
 }
 </style>
 
