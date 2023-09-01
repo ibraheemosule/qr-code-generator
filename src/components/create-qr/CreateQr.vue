@@ -93,7 +93,7 @@ async function generateQr(e: SubmitEvent) {
               :rules="utils.titleValidation"
               class="mt-3"
               aria-required="true"
-              label="Qr Code Title"
+              label="Qr Code Title (Required)"
               hint="Create a Title for the Qr Code"
               variant="outlined"
             />
@@ -102,7 +102,7 @@ async function generateQr(e: SubmitEvent) {
               v-model="url"
               aria-required="true"
               :rules="utils.urlValidation"
-              label="Url Link"
+              label="Url Link (Required)"
               hint="https://example.com or www.example.com"
               variant="outlined"
             />
@@ -113,7 +113,7 @@ async function generateQr(e: SubmitEvent) {
               accept=".png, .jpeg, .jpg, .svg"
               aria-required="false"
               prepend-icon="mdi-image"
-              label="Embed Brand Logo (optional)"
+              label="Embed Brand Logo (Optional)"
               variant="outlined"
             ></v-file-input>
           </v-sheet>
