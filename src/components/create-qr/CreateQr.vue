@@ -83,15 +83,15 @@ async function generateQr(e: SubmitEvent) {
 </script>
 
 <template>
-  <v-container fluid class="fill-height">
-    <v-row class="mt-12">
+  <v-container fluid class="fill-height py-16 overflow-md-hidden">
+    <v-row>
       <v-col cols="12" sm="12" md="6" class="">
         <TitleText value="Generate Qr Code" />
         <v-col cols="12" md="6" class="d-md-none mx-auto">
           <v-img class="" src="@/assets/qr-page-img.svg" />
         </v-col>
-        <v-form validate-on="blur" @submit.prevent="generateQr">
-          <v-sheet class="mt-12">
+        <v-form validate-on="blur" class="my-12" @submit.prevent="generateQr">
+          <v-sheet class="mt-16">
             <v-text-field
               v-model="qrTitle"
               :rules="utils.titleValidation"
@@ -175,5 +175,23 @@ p {
   word-break: break-word;
   font-style: italic;
   max-width: 500px;
+}
+
+form {
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: auto;
+}
+
+@media (min-width: 600px) {
+  form {
+    max-height: clamp(300px, 60vh, 550px);
+  }
+}
+
+@media (min-width: 1280px) {
+  form {
+    max-height: clamp(500px, 70vh, 700px);
+  }
 }
 </style>
