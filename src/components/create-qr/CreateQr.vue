@@ -2,7 +2,6 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { nanoid } from "nanoid";
-import QRCode from "qrcode";
 
 import { QueryParamType } from "../../ts-types/data-types";
 import * as utils from "./u_create-qr";
@@ -50,14 +49,7 @@ async function generateQr(e: SubmitEvent) {
   if (!form.valid) return;
 
   try {
-    let generatedQr = await QRCode.toDataURL(concatUrl.value, {
-      type: "image/png",
-      margin: 1,
-      color: {
-        dark: "#000000", // QR Color
-        light: "#ffffff", // Background Color
-      },
-    });
+    const generatedQr = await utils.createQr(concatUrl.value);
 
     let imgString;
     if (logo.value[0]) {
@@ -121,7 +113,7 @@ async function generateQr(e: SubmitEvent) {
               accept=".png, .jpeg, .jpg, .svg"
               aria-required="false"
               prepend-icon="mdi-image"
-              label="Upload Brand Logo (optional)"
+              label="Embed Brand Logo (optional)"
               variant="outlined"
             ></v-file-input>
           </v-sheet>
@@ -181,14 +173,10 @@ p {
   max-width: 500px;
 }
 
-form {
-  overflow: hidden;
-  overflow-y: auto;
-  max-height: auto;
-}
-
 @media (min-width: 600px) {
   form {
+    overflow: hidden;
+    overflow-y: auto;
     max-height: clamp(300px, 60vh, 550px);
   }
 }

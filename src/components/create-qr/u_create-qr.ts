@@ -1,3 +1,5 @@
+import QRCode from "qrcode";
+
 const charLength = (min: number, max: number) => (value: string) =>
   value.length < min
     ? "Field too short"
@@ -57,5 +59,16 @@ export function convertImg(file: File) {
     };
 
     reader.readAsDataURL(file);
+  });
+}
+
+export async function createQr(url: string) {
+  return await QRCode.toDataURL(url, {
+    type: "image/png",
+    margin: 1,
+    color: {
+      dark: "#000000", // QR Color
+      light: "#ffffff", // Background Color
+    },
   });
 }
