@@ -10,6 +10,7 @@ import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 const id = useRoute().params.id;
 const store = useStore();
 const router = useRouter();
+const extension = ["png", "svg", "jpeg"];
 
 const qrObject = store.list.filter((qr) => qr.id === id)[0];
 
@@ -24,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-container v-if="qrObject" fluid class="fill-height py-16">
+  <v-container v-if="qrObject" fluid class="fill-height">
     <v-row>
       <v-col cols="12" class="text-center">
         <TitleText value="Qr Image" />
@@ -37,25 +38,11 @@ onMounted(() => {
         </div>
       </v-col>
       <v-col cols="12" class="d-flex flex-wrap justify-center">
-        <v-sheet class="mx-2 my-2">
+        <v-sheet v-for="type in extension" :key="type" class="mx-2 my-2">
           <ActionBtn
-            @action-fn="downloadQr('png', qrObject.title)"
+            @action-fn="downloadQr(type, qrObject.title)"
             size="small"
-            text="Download PNG"
-          />
-        </v-sheet>
-        <v-sheet class="my-2">
-          <ActionBtn
-            @action-fn="downloadQr('jpeg', qrObject.title)"
-            size="small"
-            text="Download JPEG"
-          />
-        </v-sheet>
-        <v-sheet class="mx-2 my-2">
-          <ActionBtn
-            @action-fn="downloadQr('svg', qrObject.title)"
-            size="small"
-            text="Download SVG"
+            :text="`Download ${type}`"
           />
         </v-sheet>
       </v-col>
