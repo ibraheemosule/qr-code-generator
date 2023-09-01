@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
-    "axios": "^1.5.0",
     "core-js": "^3.29.0",
     "dom-to-image": "^2.6.0",
     "nanoid": "^4.0.2",
