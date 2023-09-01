@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Navbar />
-    <v-main class="py-12">
+    <v-main class="">
       <v-container class="h-screen">
         <RouterView />
       </v-container>

@@ -43,7 +43,7 @@ function viewQr(id: string) {
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-16">
     <TitleText value="Qr Code History" />
 
     <v-row class="mt-16">
@@ -61,7 +61,7 @@ function viewQr(id: string) {
       </template>
     </v-row>
 
-    <v-row class="mt-2 pb-16 flex-wrap">
+    <v-row class="qr-list mt-8 pb-16 flex-wrap">
       <QrListEmpty :search="search" :qrList="qrList" />
       <v-col
         class="pa-6 mb-6"
@@ -107,5 +107,11 @@ p {
 
 .search-field {
   width: clamp(300px, 40%, 500px);
+}
+
+.qr-list {
+  max-height: clamp(400px, 70vh, 700px);
+  overflow: hidden;
+  overflow-y: auto;
 }
 </style>
