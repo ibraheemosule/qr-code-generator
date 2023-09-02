@@ -11,7 +11,7 @@ const id = useRoute().params.id;
 const store = useStore();
 const router = useRouter();
 const extension = ref({ png: false, svg: false, jpeg: false });
-const error = ref(true);
+const error = ref(false);
 const qrObject = store.list.filter((qr) => qr.id === id)[0];
 
 if (!qrObject) router.push("/");
