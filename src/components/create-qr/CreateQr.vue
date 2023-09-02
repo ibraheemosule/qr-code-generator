@@ -73,7 +73,6 @@ async function generateQr(e: SubmitEvent) {
     router.push(`qr/${id}`);
   } catch (e) {
     console.log(e);
-  } finally {
     loading.value = false;
   }
 }
@@ -123,21 +122,21 @@ async function generateQr(e: SubmitEvent) {
             ></v-file-input>
           </v-sheet>
           <v-row id="queries" v-for="(field, i) in queries" :key="field.id">
-            <v-col cols="6" class="pb-0 mb-n3">
+            <v-col cols="12" sm="6" class="pb-0 mb-n3">
               <v-text-field
                 v-model="field.query"
                 :rules="utils.queryValidation"
                 class="mt-3"
-                label="Query"
+                label="Query (Optional)"
                 variant="outlined"
               />
             </v-col>
-            <v-col cols="6" class="pb-0 mb-n3">
+            <v-col cols="12" sm="6" class="pb-0 mb-n3">
               <v-text-field
                 v-model="field.param"
                 :rules="utils.paramValidation(field.query)"
                 class="mt-3"
-                label="Param"
+                :label="`Param (${field.query ? 'Required' : 'Optional'})`"
                 variant="outlined"
               />
             </v-col>

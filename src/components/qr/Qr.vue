@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "../../store/app";
 import { downloadQr } from "./u_qr";
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 
 import TitleText from "../reusables/title-text/TitleText.vue";
 import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
@@ -10,11 +10,18 @@ import ActionBtn from "../reusables/action-btn/ActionBtn.vue";
 const id = useRoute().params.id;
 const store = useStore();
 const router = useRouter();
-const extension = ["png", "svg", "jpeg"];
+const extension = ref({ png: false, svg: false, jpeg: false });
 
 const qrObject = store.list.filter((qr) => qr.id === id)[0];
 
 if (!qrObject) router.push("/");
+
+async function download(type: string, title: string) {
+  const value = type as keyof typeof extension.value;
+  extension.value[value] = true;
+  await downloadQr(type, title);
+  extension.value[value] = false;
+}
 
 onMounted(() => {
   if (!qrObject.logo) return;
@@ -38,11 +45,16 @@ onMounted(() => {
         </div>
       </v-col>
       <v-col cols="12" class="d-flex flex-wrap justify-center">
-        <v-sheet v-for="type in extension" :key="type" class="mx-2 my-2">
+        <v-sheet
+          v-for="type in Object.keys(extension)"
+          :key="type"
+          class="mx-2 my-2"
+        >
           <ActionBtn
-            @action-fn="downloadQr(type, qrObject.title)"
+            @action-fn="download(type, qrObject.title)"
             size="small"
             :text="`Download ${type}`"
+            :loading="extension[type as keyof typeof extension]"
           />
         </v-sheet>
       </v-col>
