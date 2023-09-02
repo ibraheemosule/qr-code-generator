@@ -11,15 +11,18 @@ const id = useRoute().params.id;
 const store = useStore();
 const router = useRouter();
 const extension = ref({ png: false, svg: false, jpeg: false });
-
+const error = ref(true);
 const qrObject = store.list.filter((qr) => qr.id === id)[0];
 
 if (!qrObject) router.push("/");
 
 async function download(type: string, title: string) {
+  error.value = false;
   const value = type as keyof typeof extension.value;
   extension.value[value] = true;
-  await downloadQr(type, title);
+
+  const status = await downloadQr(type, title);
+  if (!status) error.value = true;
   extension.value[value] = false;
 }
 
@@ -33,7 +36,7 @@ onMounted(() => {
 
 <template>
   <v-container v-if="qrObject" fluid class="fill-height">
-    <v-row>
+    <v-row class="qr-container">
       <v-col cols="12" class="text-center">
         <TitleText value="Qr Image" />
       </v-col>
@@ -58,6 +61,9 @@ onMounted(() => {
           />
         </v-sheet>
       </v-col>
+      <v-col cols="12" class="error" v-if="error">
+        <p class="text-error text-center">Could not download Qr</p>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -71,7 +77,8 @@ p {
   font-style: italic;
 }
 
-.img-container {
+.img-container,
+.qr-container {
   position: relative;
 }
 
@@ -86,5 +93,10 @@ p {
   border-radius: 0.5rem;
   width: 20%;
   object-fit: contain;
+}
+
+.error {
+  position: absolute;
+  bottom: -5%;
 }
 </style>

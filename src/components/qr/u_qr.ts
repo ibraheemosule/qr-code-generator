@@ -2,7 +2,6 @@ import domToImage from "dom-to-image";
 
 export async function downloadQr(type: string, title: string) {
   const qrContainer = document.getElementById("qrContainer");
-
   const format = {
     png: domToImage.toPng,
     svg: domToImage.toSvg,
@@ -18,9 +17,11 @@ export async function downloadQr(type: string, title: string) {
     downloadLink.download = `${title}.${type}`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
-
     document.body.removeChild(downloadLink);
+
+    return true;
   } catch (e) {
     console.log(e);
+    return false;
   }
 }
