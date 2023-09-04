@@ -44,7 +44,7 @@ onMounted(() => {
       <v-col cols="12" sm="6" md="4" class="mx-auto mt-6">
         <div class="img-container pa-2" id="qrContainer">
           <v-img :src="qrObject.qr" />
-          <img class="logo" id="logo" />
+          <img v-if="qrObject.logo" class="logo" id="logo" />
         </div>
       </v-col>
       <v-col cols="12" class="d-flex flex-wrap justify-center">
